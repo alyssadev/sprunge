@@ -12,7 +12,7 @@ from google.appengine.api.app_identity import get_default_gcs_bucket_name
 from google.appengine.ext import blobstore, db
 from google.appengine.ext.webapp import blobstore_handlers
 
-URL = 'http://sprunge.us'
+URL = 'https://pastesha.re'
 POST = 'sprunge'
 
 def new_id():
