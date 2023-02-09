@@ -1,8 +1,4 @@
-application: pastesha-re
-version: 2
-runtime: python27
-api_version: 1
-threadsafe: true
+runtime: python310
 
 handlers:
 - url: /favicon.ico
@@ -11,8 +7,3 @@ handlers:
 - url: /robots.txt
   static_files: static/robots.txt
   upload: static/robots.txt
-- url: /glipper-sprunge.txt
-  static_files: static/glipper-sprunge.txt
-  upload: static/glipper-sprunge.txt
-- url: /.*
-  script: sprunge.app

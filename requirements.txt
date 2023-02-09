@@ -1,0 +1,4 @@
+flask
+google-cloud-ndb
+google-cloud-storage
+pygments
