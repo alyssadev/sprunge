@@ -2,8 +2,13 @@ runtime: python310
 
 handlers:
 - url: /favicon.ico
+  secure: always
   static_files: static/favicon.ico
   upload: static/favicon.ico
 - url: /robots.txt
+  secure: always
   static_files: static/robots.txt
   upload: static/robots.txt
+- url: /.*
+  secure: always
+  script: auto
