@@ -27,7 +27,7 @@ SYNOPSIS
     &lt;command&gt; | curl -F '{POST}=&lt;-' {URL}
 
 DESCRIPTION
-    add <a href="http://pygments.org/docs/lexers/">?&lt;lang&gt;</a> to resulting url for line numbers and syntax highlighting
+    add <a href="https://pygments.org/docs/lexers/">?&lt;lang&gt;</a> to resulting url for line numbers and syntax highlighting
     use <a href="/submit">this form</a> to paste from a browser
 
 EXAMPLES
@@ -36,7 +36,7 @@ EXAMPLES
     ~$ firefox {URL}/aXZI?py#n-7
 
 SEE ALSO
-    http://github.com/beledouxdenis/sprunge
+    https://github.com/beledouxdenis/sprunge
 
             </pre>
         </body>
