@@ -5,8 +5,8 @@ import pygments
 import pygments.formatters
 import pygments.lexers
 
-from google.cloud import ndb, storage
-from flask import Flask, request, Response
+from flask import abort, Flask, request, Response
+from google.cloud import exceptions, ndb, storage
 
 PROJECT_ID = "pastesha-re"
 BUCKET = "%s.appspot.com" % PROJECT_ID
@@ -63,8 +63,7 @@ def main():
                 )
                 if not Sprunge.gql("WHERE name = :1", name).get():
                     break
-        blob = gcs_client.bucket(BUCKET).blob(name)
-        blob.upload_from_string(request.form["sprunge"])
+        gcs_client.bucket(BUCKET).blob(name).upload_from_string(request.form["sprunge"])
         with ds_client.context():
             Sprunge(name=name).put()
         return f"{URL}/{name}\n"
@@ -75,10 +74,16 @@ def main():
 def get_sprunge(name):
     with ds_client.context():
         s = Sprunge.gql("WHERE name = :1", name).get()
-        content = gcs_client.bucket(BUCKET).blob(s.name).download_as_text()
+        blob = gcs_client.bucket(BUCKET).blob(s.name) if s else None
+        try:
+            content = blob.download_as_text() if blob else None
+        except exceptions.NotFound:
+            content = None
+        if not content:
+            abort(404)
         syntax = request.query_string.decode()
         if not syntax:
-            return Response(content, mimetype='text/plain')
+            return Response(content, mimetype="text/plain")
         try:
             lexer = pygments.lexers.get_lexer_by_name(syntax)
         except Exception:
@@ -113,5 +118,9 @@ def purge():
     )
     with ds_client.context():
         for record in Sprunge.gql("WHERE date < DATETIME(:1)", a_month_ago).fetch():
+            try:
+                gcs_client.bucket(BUCKET).blob(record.name).delete()
+            except exceptions.NotFound:
+                pass
             record.key.delete()
     return "OK"
