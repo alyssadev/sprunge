@@ -9,7 +9,7 @@ from flask import abort, Flask, request, Response
 from google.cloud import exceptions, ndb, storage
 
 PROJECT_ID = "mxbin"
-BUCKET = "%s.appspot.com" % PROJECT_ID
+BUCKET = "mxroute-1682312251326.appspot.com"
 URL = "https://mxbin.io"
 POST = "sprunge"
 SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
