@@ -1,4 +1,4 @@
-Command line pastebin for google app-engine, in use at [pastesha.re](https://pastesha.re).
+Command line pastebin for google app-engine, in use at [pastesha.re](https://mxbin.io).
 
 ### Install
 
