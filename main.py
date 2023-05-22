@@ -8,9 +8,9 @@ import pygments.lexers
 from flask import abort, Flask, request, Response
 from google.cloud import exceptions, ndb, storage
 
-PROJECT_ID = "pastesha-re"
+PROJECT_ID = "mxbin"
 BUCKET = "%s.appspot.com" % PROJECT_ID
-URL = "https://pastesha.re"
+URL = "https://mxbin.io"
 POST = "sprunge"
 SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 HELP = f"""
@@ -36,7 +36,7 @@ EXAMPLES
     ~$ firefox {URL}/aXZI?py#n-7
 
 SEE ALSO
-    https://github.com/beledouxdenis/sprunge
+    https://github.com/mxroute/sprunge
 
             </pre>
         </body>
