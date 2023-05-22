@@ -59,7 +59,7 @@ def main():
         with ds_client.context():
             while True:
                 name = "".join(
-                    SYMBOLS[random.randint(0, len(SYMBOLS) - 1)] for i in range(4)
+                    SYMBOLS[random.randint(0, len(SYMBOLS) - 1)] for i in range(6)
                 )
                 if not Sprunge.gql("WHERE name = :1", name).get():
                     break
