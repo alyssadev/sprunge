@@ -1,4 +1,4 @@
-Command line pastebin for google app-engine, in use at [mxbin.io](https://mxbin.io).
+Command line pastebin for google app-engine, in use at [mxbin.io](https://mxbin.io). Based on work by [beledouxdenis](https://github.com/beledouxdenis).
 
 ### Install
 
