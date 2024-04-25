@@ -9,7 +9,7 @@ from flask import abort, Flask, request, Response
 from google.cloud import exceptions, ndb, storage, secretmanager
 
 PROJECT_ID = "leafy-display-293216"
-BUCKET = "ads-pb"
+BUCKET = PROJECT_ID + ".appspot.com"
 URL = "https://pb.aly.pet"
 POST = "sprunge"
 SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -62,8 +62,12 @@ class Sprunge(ndb.Model):
 def main():
     if request.method == "POST":
         global auth_token
-        if request.headers.get("Authorization") != auth_token:
+        if "Authorization" in request.headers and request.headers["Authorization"] != auth_token:
             return "Unauthorized\n", 403
+        if "Authorization" in request.form and request.form["Authorization"] != auth_token:
+            return "Unauthorized\n", 403
+        if POST not in request.form:
+            return "Invalid request\n", 400
         with ds_client.context():
             while True:
                 name = "".join(
@@ -111,8 +115,10 @@ def get_sprunge(name):
 @app.route("/submit", methods=["GET"])
 def submit():
     return f"""
-        <form action="{URL}" method="POST">
+        <form action="/" method="POST">
             <textarea name="{POST}" cols="80" rows="24"></textarea>
+            <br/>
+            <input name="Authorization" type="password"/>
             <br/>
             <button type="submit">{POST}</button>
         </form>
