@@ -4,3 +4,6 @@ pygments/
 cloudstorage/
 
 *.pyc
+
+.env/
+__pycache__/

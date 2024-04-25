@@ -6,11 +6,11 @@ import pygments.formatters
 import pygments.lexers
 
 from flask import abort, Flask, request, Response
-from google.cloud import exceptions, ndb, storage
+from google.cloud import exceptions, ndb, storage, secretmanager
 
-PROJECT_ID = "mxbin"
-BUCKET = "mxroute-1682312251326.appspot.com"
-URL = "https://mxbin.io"
+PROJECT_ID = "leafy-display-293216"
+BUCKET = "ads-pb"
+URL = "https://pb.aly.pet"
 POST = "sprunge"
 SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 HELP = f"""
@@ -47,6 +47,11 @@ app = Flask(__name__)
 ds_client = ndb.Client()
 gcs_client = storage.Client()
 
+secrets_client = secretmanager.SecretManagerServiceClient()
+secret_path = secrets_client.secret_version_path(PROJECT_ID, "sprunge-token", 1)
+response = secrets_client.access_secret_version(request={"name": secret_path})
+auth_token = response.payload.data.decode('UTF-8')
+
 
 class Sprunge(ndb.Model):
     name = ndb.StringProperty()
@@ -56,14 +61,17 @@ class Sprunge(ndb.Model):
 @app.route("/", methods=["GET", "POST"])
 def main():
     if request.method == "POST":
+        global auth_token
+        if request.headers.get("Authorization") != auth_token:
+            return "Unauthorized\n", 403
         with ds_client.context():
             while True:
                 name = "".join(
-                    SYMBOLS[random.randint(0, len(SYMBOLS) - 1)] for i in range(6)
+                    SYMBOLS[random.randint(0, len(SYMBOLS) - 1)] for i in range(3)
                 )
                 if not Sprunge.gql("WHERE name = :1", name).get():
                     break
-        gcs_client.bucket(BUCKET).blob(name).upload_from_string(request.form["sprunge"])
+        gcs_client.bucket(BUCKET).blob(name).upload_from_string(request.form[POST])
         with ds_client.context():
             Sprunge(name=name).put()
         return f"{URL}/{name}\n"
