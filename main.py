@@ -24,14 +24,15 @@ NAME
     sprunge: command line pastebin.
 
 SYNOPSIS
-    &lt;command&gt; | curl -F '{POST}=&lt;-' {URL}
+    &lt;command&gt; | curl -H "Authorization: $SPRUNGE_TOKEN" -F '{POST}=&lt;-' {URL}
+    &lt;command&gt; | curl -F "Authorization: $SPRUNGE_TOKEN" -F '{POST}=&lt;-' {URL}
 
 DESCRIPTION
     add <a href="https://pygments.org/docs/lexers/">?&lt;lang&gt;</a> to resulting url for line numbers and syntax highlighting
     use <a href="/submit">this form</a> to paste from a browser
 
 EXAMPLES
-    ~$ cat bin/ching | curl -F '{POST}=&lt;-' {URL}
+    ~$ cat bin/ching | curl -H "Authorization: $SPRUNGE_TOKEN" -F '{POST}=&lt;-' {URL}
     {URL}/aXZI
     ~$ firefox {URL}/aXZI?py#n-7
 
